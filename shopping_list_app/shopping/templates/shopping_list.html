@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mx-8">
+        <h2 class="text-center mt-4">Shopping List</h2>
+        <div class="d-flex justify-content-end mb-2">
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        </div>
+        <form method="POST" class="mb-2">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
+        
+        <div class="row font-weight-bold mb-1">
+            <div class="col-1 p-2 text-center">Sr No.</div>
+            <div class="col-5 p-2 text-center">Product Name</div>
+            <div class="col-2 p-2 text-center">Quantity</div>
+            <div class="col-2 p-2 text-center">Status</div>
+            <div class="col-2 p-2 text-center">Actions</div>
+        </div>
+
+        <div class="item-list">
+            {% for item in items %}
+                <div class="row align-items-center mb-3 border p-2 rounded {% if item.purchased %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
+                    <div class="col-1 text-center">{{ forloop.counter }}</div>
+                    <div class="col-5 text-center">{{ item.product_name }}</div>
+                    <div class="col-2 text-center">{{ item.quantity }}</div>
+                    <div class="col-2 text-center">
+                        {% if item.purchased %}
+                            Purchased
+                        {% else %}
+                            Not Purchased
+                        {% endif %}
+                    </div>
+                    <div class="col-2 text-center">
+                        <div class="d-flex justify-content-center">
+                            <form action="{% url 'toggle_purchase_item' item.id %}" method="POST" class="mr-1">
+                                {% csrf_token %}
+                                <button type="submit" class="btn {% if item.purchased %}btn-warning{% else %}btn-success{% endif %} btn-sm">
+                                    {% if item.purchased %} Not Purchased {% else %} Purchase {% endif %}
+                                </button>
+                            </form>
+                            <a href="{% url 'edit_item' item.id %}" class="btn btn-info btn-sm mx-1">Edit</a>
+                            <a href="{% url 'delete_item' item.id %}" class="btn btn-danger btn-sm mx-1">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Removed unnecessary scripts -->
+</body>
+</html>

@@ -25,7 +25,7 @@ SECRET_KEY = '-insecure-bc!8m6k!django9w#hwz*f$g%z(a0*c##3(3-$mm6!7q58fj7$_m9zy=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://shoppinglist-3gix.onrender.com"]
 
 
 # Application definition
